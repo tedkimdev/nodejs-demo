@@ -4,8 +4,9 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const expressSession = require('express-session');
 const dotenv = require('dotenv');
+const passport = require('passport');
 
-
+const passportConfig = require('./passport');
 const db = require('./models');
 const userAPIRouter = require('./routes/user');
 const postAPIRouter = require('./routes/post');
@@ -14,6 +15,7 @@ const postsAPIRouter = require('./routes/posts');
 dotenv.config();
 const app = express();
 db.sequelize.sync();
+passportConfig();
 
 //use middlewares
 app.use(morgan('dev'));
@@ -30,6 +32,8 @@ app.use(expressSession({
     secure: false,  // https
   }
 }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/api/user', userAPIRouter);
 app.use('/api/post', postAPIRouter);
