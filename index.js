@@ -21,7 +21,10 @@ passportConfig();
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true,
+}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(expressSession({
   resave: true,
@@ -30,7 +33,8 @@ app.use(expressSession({
   cookie: {
     httpOnly: true,
     secure: false,  // https
-  }
+  },
+  name: process.env.COOKIE_NAME,
 }));
 app.use(passport.initialize());
 app.use(passport.session());
