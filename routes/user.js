@@ -35,7 +35,7 @@ router.get('/:id', (req, res) => {
 });
 router.post('/logout', (req, res) => {
 });
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(err) {
       console.error(err);
@@ -49,7 +49,7 @@ router.post('/login', (req, res) => {
       if (loginErr) {
         return next(loginErr);
       }
-      const filteredUser = Object.assign({}, user);
+      const filteredUser = Object.assign({}, user.toJSON());
       delete filteredUser.password;
       return res.json(filteredUser);
     });
