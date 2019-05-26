@@ -34,7 +34,11 @@ router.post('/', async (req, res, next) => {
 router.get('/:id', (req, res) => {
 });
 router.post('/logout', (req, res) => {
+  req.logout();
+  req.session.destroy();
+  res.send('logout success');
 });
+
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', (err, user, info) => {
     if(err) {
